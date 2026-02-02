@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Test Page</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .test-container {
+            padding: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .test-box {
+            padding: 30px;
+            margin: 20px 0;
+            border: 2px solid;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="display-2">CSS DESIGN TEST</h1>
+        
+        <div class="test-box bg-surface">
+            <h2>Background Test</h2>
+            <p>This should have dark background (#0d0d0d) with white text</p>
+            <p class="text-secondary">This text should be gray (#aaaaaa)</p>
+        </div>
+
+        <div class="test-box">
+            <h3 class="text-accent">Accent Color Test</h3>
+            <p>Accent should be red (#D20000)</p>
+            <button class="btn-pro btn-pro-primary">Primary Button</button>
+            <button class="btn-pro btn-pro-outline">Outline Button</button>
+        </div>
+
+        <div class="test-box glass-effect">
+            <h3>Glassmorphism Test</h3>
+            <p>This should have blur effect and semi-transparent background</p>
+        </div>
+
+        <div class="product-grid">
+            <div class="product-card-pro">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=400" alt="Test">
+                </div>
+                <div class="p-4">
+                    <h4>Product Card Test</h4>
+                    <p class="text-secondary">Should have hover effects</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px; padding: 20px; background: #222;">
+            <h3>CSS Variables Check:</h3>
+            <div style="font-family: monospace; font-size: 14px;">
+                <p>Body BG: <span style="background: var(--db-bg-body); padding: 5px 10px; display: inline-block;">var(--db-bg-body)</span></p>
+                <p>Surface BG: <span style="background: var(--db-bg-surface); padding: 5px 10px; display: inline-block;">var(--db-bg-surface)</span></p>
+                <p>Accent: <span style="background: var(--db-accent); padding: 5px 10px; display: inline-block;">var(--db-accent)</span></p>
+                <p>Font Heading: <span style="font-family: var(--db-font-heading);">Montserrat Font Test</span></p>
+                <p>Font Body: <span style="font-family: var(--db-font-body);">Inter Font Test</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('CSS Variables:', {
+            bgBody: getComputedStyle(document.documentElement).getPropertyValue('--db-bg-body'),
+            bgSurface: getComputedStyle(document.documentElement).getPropertyValue('--db-bg-surface'),
+            accent: getComputedStyle(document.documentElement).getPropertyValue('--db-accent'),
+            fontHeading: getComputedStyle(document.documentElement).getPropertyValue('--db-font-heading'),
+            fontBody: getComputedStyle(document.documentElement).getPropertyValue('--db-font-body')
+        });
+    </script>
+</body>
+</html>

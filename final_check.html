@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Drive Boosted | Elite Automotive Detailing & Performance Gear. Precision surface engineering and artisanal automotive care.">
+    <meta name="keywords" content="car detailing, ceramic coating, ppf, paint protection, dhaka car care, premium detailing">
+    <meta property="og:title" content="Drive Boosted | Elite Automotive Performance">
+    <meta property="og:description" content="Precision surface engineering for the elite automotive enthusiast.">
+    <meta property="og:image" content="http://127.0.0.1:8000/images/hero.png">
+    <title>Drive Boosted | Elite Automotive Performance</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Font import handled by main.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="http://127.0.0.1:8000/css/main.css">
+    
+    <script>
+        // RSA Unified Theme & Layout Engine
+        (function() {
+            // Force Dark Theme as default if nothing is saved
+            const savedTheme = localStorage.getItem('rsa_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            window.addEventListener('scroll', () => {
+                const nav = document.querySelector('.master-nav');
+                if (window.scrollY > 50) {
+                    nav?.classList.add('scrolled');
+                } else {
+                    nav?.classList.remove('scrolled');
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const toggle = document.getElementById('themeToggle');
+                const html = document.documentElement;
+
+                const updateIcon = (theme) => {
+                    const icon = toggle?.querySelector('i');
+                    if(icon) {
+                        icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+                    }
+                    
+                    // Update Logos
+                    const logos = document.querySelectorAll('.logo-img');
+                    logos.forEach(img => {
+                        // Use public images if available, otherwise fallback to current logic
+                        const logoSrc = theme === 'light' ? 'http://127.0.0.1:8000/images/logo-black.png' : 'http://127.0.0.1:8000/images/logo-white.png';
+                        img.src = logoSrc;
+                    });
+                };
+
+                // Initialize state
+                updateIcon(savedTheme);
+
+                if(toggle) {
+                    toggle.addEventListener('click', () => {
+                        const current = document.documentElement.getAttribute('data-theme');
+                        const target = current === 'dark' ? 'light' : 'dark';
+                        
+                        document.documentElement.setAttribute('data-theme', target);
+                        localStorage.setItem('rsa_theme', target);
+                        updateIcon(target);
+                    });
+                }
+            });
+        })();
+    </script>
+    <style>
+    /* Homepage Performance & Specialized Layout */
+    .hero-section {
+        background: var(--db-bg-body);
+    }
+    
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%),
+                    linear-gradient(to bottom, rgba(5,5,5,0.8) 0%, transparent 40%, rgba(5,5,5,0.8) 100%);
+        z-index: 2;
+    }
+
+    .hero-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover !important;
+        background-position: center !important;
+        transition: transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .swiper-slide-active .hero-bg {
+        transform: scale(1.1);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 3;
+        max-width: 900px;
+    }
+
+    /* Aura Glow for Cards */
+    .aura-glow {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle at top right, var(--db-accent-glow), transparent 70%);
+        opacity: 0;
+        transition: var(--db-transition);
+        pointer-events: none;
+    }
+
+    .product-card-pro:hover .aura-glow {
+        opacity: 1;
+    }
+
+    /* Specialized Stat Layout */
+    .stat-grid-modern {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+        background: var(--db-border-subtle);
+        border: 1px solid var(--db-border-subtle);
+    }
+
+    @media (min-width: 992px) {
+        .stat-grid-modern {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    .stat-item-pro {
+        background: var(--db-bg-body);
+        padding: 60px 40px;
+        text-align: center;
+        transition: var(--db-transition);
+    }
+
+    .stat-item-pro:hover {
+        background: var(--db-bg-surface);
+    }
+
+    /* Category Blocks */
+    .category-block {
+        position: relative;
+        height: 500px;
+        overflow: hidden;
+        background: var(--db-bg-surface);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 40px;
+        text-decoration: none !important;
+        border: 1px solid var(--db-border-subtle);
+    }
+
+    .category-block-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover !important;
+        background-position: center !important;
+        filter: brightness(0.5) grayscale(0.2);
+        transition: var(--db-transition);
+        z-index: 1;
+    }
+
+    .category-block:hover .category-block-bg {
+        transform: scale(1.05);
+        filter: brightness(0.7) grayscale(0);
+    }
+
+    .category-block-content {
+        position: relative;
+        z-index: 2;
+    }
+</style>
+</head>
+<body>
+    <div class="cart-drawer-overlay" id="cartOverlay" style="position:fixed; top:0; left:0; width:100%; height:100vh; background:rgba(0,0,0,0.8); z-index:1500; opacity:0; visibility:hidden; transition: 0.4s;"></div>
+
+    <!-- Quick View Modal -->
+    <div class="qv-overlay" id="quickViewOverlay">
+        <button class="close-search" id="closeQuickView"><i class="fas fa-times"></i></button>
+        <div class="qv-container" id="qvContent">
+            <!-- Loaded via AJAX -->
+        </div>
+    </div>
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <span>WORLDWIDE SHIPPING • PREMIUM AUTOMOTIVE PERFORMANCE • EST. 2026</span>
+    </div>
+
+    <!-- Master Navigation -->
+    <nav class="master-nav glass-effect " id="mainNav">
+        <div class="nav-container d-flex align-items-center justify-content-between h-100">
+            <!-- Left: Branding -->
+            <div class="nav-left">
+                <a href="http://127.0.0.1:8000" class="logo-link">
+                    <img src="http://127.0.0.1:8000/images/logo-white.png" alt="Drive Boosted" class="logo-img" id="mainLogo">
+                </a>
+            </div>
+            
+            <!-- Center: Desktop Navigation -->
+            <ul class="nav-center d-none d-xl-flex gap-5 m-0 p-0 list-unstyled" id="navCenter">
+                <li><a href="http://127.0.0.1:8000" class="nav-link-rsa">HOME</a></li>
+                <li class="has-megamenu">
+                    <a href="http://127.0.0.1:8000/catalog" class="nav-link-rsa">GEAR SHOP <i class="fas fa-chevron-down ms-1" style="font-size: 0.6rem;"></i></a>
+                    <div class="megamenu glass-effect">
+                        <div class="nav-container py-5">
+                            <div class="megamenu-grid">
+                                                                <div class="mm-category">
+                                    <a href="http://127.0.0.1:8000/catalog?category=complete-detailing">
+                                        <div class="mm-img-wrapper">
+                                            <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&amp;w=2070&amp;auto=format&amp;fit=crop" alt="Complete Detailing" onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/RSA_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
+                                        </div>
+                                        <h5 class="fw-900 fs-8 ls-1 text-uppercase mb-1">Complete Detailing</h5>
+                                        <p class="opacity-50 fs-9 m-0 text-truncate">Full vehicle restoration inside and out.</p>
+                                    </a>
+                                </div>
+                                                                <div class="mm-category">
+                                    <a href="http://127.0.0.1:8000/catalog?category=exterior-detailing">
+                                        <div class="mm-img-wrapper">
+                                            <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&amp;w=2070&amp;auto=format&amp;fit=crop" alt="Exterior Detailing" onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/RSA_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
+                                        </div>
+                                        <h5 class="fw-900 fs-8 ls-1 text-uppercase mb-1">Exterior Detailing</h5>
+                                        <p class="opacity-50 fs-9 m-0 text-truncate">Professional paint correction and surface decontamination.</p>
+                                    </a>
+                                </div>
+                                                                <div class="mm-category">
+                                    <a href="http://127.0.0.1:8000/catalog?category=ceramic-coating">
+                                        <div class="mm-img-wrapper">
+                                            <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&amp;w=2070&amp;auto=format&amp;fit=crop" alt="Ceramic Coating" onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/RSA_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
+                                        </div>
+                                        <h5 class="fw-900 fs-8 ls-1 text-uppercase mb-1">Ceramic Coating</h5>
+                                        <p class="opacity-50 fs-9 m-0 text-truncate">Nano-technology surface protection for long-term shield.</p>
+                                    </a>
+                                </div>
+                                                                <div class="mm-category">
+                                    <a href="http://127.0.0.1:8000/catalog?category=interior-detailing">
+                                        <div class="mm-img-wrapper">
+                                            <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&amp;w=2070&amp;auto=format&amp;fit=crop" alt="Interior Detailing" onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/RSA_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
+                                        </div>
+                                        <h5 class="fw-900 fs-8 ls-1 text-uppercase mb-1">Interior Detailing</h5>
+                                        <p class="opacity-50 fs-9 m-0 text-truncate">Deep cleaning and sanitation of the vehicle cabin.</p>
+                                    </a>
+                                </div>
+                                                                <div class="mm-category">
+                                    <a href="http://127.0.0.1:8000/catalog?category=general-service">
+                                        <div class="mm-img-wrapper">
+                                            <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&amp;w=2070&amp;auto=format&amp;fit=crop" alt="General Service" onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/RSA_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
+                                        </div>
+                                        <h5 class="fw-900 fs-8 ls-1 text-uppercase mb-1">General Service</h5>
+                                        <p class="opacity-50 fs-9 m-0 text-truncate">Routine maintenance and specialized care protocols.</p>
+                                    </a>
+                                </div>
+                                                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="http://127.0.0.1:8000/catalog?category=ceramic" class="nav-link-rsa">CERAMIC</a></li>
+                <li><a href="http://127.0.0.1:8000/services" class="nav-link-rsa">SERVICES</a></li>
+                <li><a href="http://127.0.0.1:8000#story" class="nav-link-rsa">OUR STORY</a></li>
+            </ul>
+
+            <!-- Right: Action Icons -->
+            <div class="nav-right d-flex gap-4 align-items-center">
+                <button class="nav-icon" id="themeToggle" title="Toggle Mode">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <div class="d-none d-md-block" style="width: 1px; height: 20px; background: var(--db-border-subtle);"></div>
+                <button class="nav-icon" id="searchTrigger"><i class="fas fa-search"></i></button>
+                <button class="nav-icon position-relative" id="cartTrigger">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-counter" id="cartCounter">0</span>
+                </button>
+                <button class="nav-icon d-xl-none" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Modal Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <button class="nav-icon position-absolute top-0 end-0 m-5" id="closeSearch" style="font-size: 2rem;"><i class="fas fa-times"></i></button>
+        <div class="nav-container h-100 d-flex flex-column justify-content-center">
+            <span class="fs-7 fw-900 ls-3 mb-4 opacity-30 d-block text-center uppercase">SEARCH THE SHOWROOM</span>
+            <form action="http://127.0.0.1:8000/catalog" method="GET" class="w-100">
+                <input type="text" name="q" id="searchInput" class="search-input-lg" placeholder="TYPE TO SEARCH..." autocomplete="off">
+            </form>
+            <div class="mt-5 text-center">
+                <span class="fs-9 fw-900 opacity-20 ls-2 d-block mb-3 uppercase">POPULAR SEARCHES</span>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="http://127.0.0.1:8000/catalog?q=ceramic" class="btn-pro btn-pro-outline py-2 px-4 fs-9">CERAMIC</a>
+                    <a href="http://127.0.0.1:8000/catalog?q=graphene" class="btn-pro btn-pro-outline py-2 px-4 fs-9">GRAPHENE</a>
+                    <a href="http://127.0.0.1:8000/catalog?q=coating" class="btn-pro btn-pro-outline py-2 px-4 fs-9">COATING</a>
+                    <a href="http://127.0.0.1:8000/catalog?q=microfiber" class="btn-pro btn-pro-outline py-2 px-4 fs-9">MICROFIBER</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div class="drawer-full glass-effect" id="cartDrawer">
+        <div class="p-4 p-md-5 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h2 class="fs-4 fw-900 ls-2 m-0 uppercase">GEAR BAG</h2>
+                <button class="nav-icon" id="closeCart" style="font-size: 1.5rem;"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="flex-grow-1 overflow-auto pe-3" id="cartContents">
+                <div class="py-5 text-center">
+        <i class="fas fa-shopping-bag opacity-10 display-3 mb-4 d-block"></i>
+        <p class="fs-7 fw-900 ls-2 opacity-30 m-0">YOUR GEAR BAG IS EMPTY</p>
+    </div>
+            </div>
+
+            <div class="mt-auto pt-5 border-top border-white border-opacity-10">
+                <div class="d-flex justify-content-between mb-4">
+                    <span class="fs-8 fw-900 opacity-40">ESTIMATED TOTAL</span>
+                    <span class="fs-5 fw-900" id="drawerSubtotal">৳0</span>
+                </div>
+                <a href="http://127.0.0.1:8000/cart" class="btn-pro btn-pro-outline w-100 mb-3 py-3 fs-9">VIEW SHOPPING BAG</a>
+                <a href="http://127.0.0.1:8000/checkout" class="btn-pro btn-pro-primary w-100 py-4 fs-8">INITIATE CHECKOUT</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+        <!-- SECTION: CINEMATIC HERO -->
+    <section class="hero-section position-relative overflow-hidden" style="height: 100vh;">
+        <div class="swiper heroSwiper h-100">
+            <div class="swiper-wrapper">
+                <!-- Slide 1: Paint Correction -->
+                <div class="swiper-slide">
+                    <div class="hero-bg" style="background: url('https://images.unsplash.com/photo-1613214150384-09874a7b738b?auto=format&fit=crop&q=80&w=2000')"></div>
+                    <div class="hero-overlay"></div>
+                    <div class="nav-container h-100 d-flex align-items-center">
+                        <div class="hero-content reveal">
+                            <span class="section-tag mb-4 shadow-text" style="color: var(--db-accent);">PROTOCOL_01 / RESTORATION</span>
+                            <h1 class="display-1 ls-narrower text-white mb-4">BEYOND <span class="text-accent">GLOSS.</span></h1>
+                            <p class="fs-5 text-white opacity-60 mb-5" style="max-width: 600px;">Precision surface engineering for the elite automotive enthusiast. We restore what time has taken.</p>
+                            <div class="d-flex gap-4">
+                                <a href="http://127.0.0.1:8000/catalog" class="btn-pro btn-pro-primary">EXPLORE GEAR</a>
+                                <a href="http://127.0.0.1:8000/appointment" class="btn-pro btn-pro-outline">BOOK STUDIO</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Ceramic Coating -->
+                <div class="swiper-slide">
+                    <div class="hero-bg" style="background: url('https://images.unsplash.com/photo-1616763355548-1b606f439f86?auto=format&fit=crop&q=80&w=2000')"></div>
+                    <div class="hero-overlay"></div>
+                    <div class="nav-container h-100 d-flex align-items-center">
+                        <div class="hero-content">
+                            <span class="section-tag mb-4" style="color: var(--db-accent);">02 / PERMANENT ARMOR</span>
+                            <h1 class="display-1 ls-narrower text-white mb-4">CERAMIC <span class="text-accent">GUARD.</span></h1>
+                            <p class="fs-5 text-white opacity-60 mb-5" style="max-width: 600px;">Scientific covalent bonding providing hydrophobic depth that lasts for years. Unmatched protection.</p>
+                            <a href="http://127.0.0.1:8000/catalog?category=ceramic" class="btn-pro btn-pro-primary">CERAMIC SERIES</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Controls -->
+            <div class="nav-container position-absolute bottom-0 start-0 end-0 p-5 d-flex justify-content-between align-items-center z-3">
+                <div class="hero-fraction text-white fw-900 fs-1 opacity-20"></div>
+                <div class="d-flex gap-2">
+                    <button class="btn-pro btn-pro-outline p-3 swiper-prev"><i class="fas fa-arrow-left"></i></button>
+                    <button class="btn-pro btn-pro-outline p-3 swiper-next"><i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: PERFORMANCE METRICS -->
+    <section class="stat-grid-modern reveal">
+        <div class="stat-item-pro">
+            <span class="d-block display-5 fw-900 text-primary mb-2">5K+</span>
+            <span class="section-tag opacity-40">Cars Perfected</span>
+        </div>
+        <div class="stat-item-pro">
+            <span class="d-block display-5 fw-900 text-primary mb-2">9H</span>
+            <span class="section-tag opacity-40">Standard Hardness</span>
+        </div>
+        <div class="stat-item-pro">
+            <span class="d-block display-5 fw-900 text-primary mb-2">10Y+</span>
+            <span class="section-tag opacity-40">Protection Life</span>
+        </div>
+        <div class="stat-item-pro">
+            <span class="d-block display-5 fw-900 text-primary mb-2">100%</span>
+            <span class="section-tag opacity-40">Artisanal Finish</span>
+        </div>
+    </section>
+
+    <!-- SECTION: THE EXPERIENCE -->
+    <section class="section-padding bg-body border-bottom border-white border-opacity-5">
+        <div class="nav-container">
+            <div class="row align-items-end mb-5 reveal">
+                <div class="col-lg-7">
+                    <span class="section-tag mb-3" style="color: var(--db-accent);">DRIVE BOOSTED PROTOCOLS</span>
+                    <h2 class="display-3 ls-narrower m-0">ELITE SERVICES_</h2>
+                </div>
+                <div class="col-lg-5 text-lg-end">
+                    <a href="http://127.0.0.1:8000/services" class="btn-pro btn-pro-outline py-3 px-5 fs-9">VIEW LAB INDEX</a>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                                <div class="col-lg-4">
+                    <div class="service-card-modern reveal" style="transition-delay: 0s;">
+                        <div class="service-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1616763355548-1b606f439f86?q=80&amp;w=2070&amp;auto=format&amp;fit=crop?auto=format&fit=crop&q=80&w=1000" alt="Nano Ceramic Coating" onerror="this.src='https://images.unsplash.com/photo-1613214150384-09874a7b738b?auto=format&fit=crop&q=80&w=1000'">
+                        </div>
+                        <div class="p-5 flex-grow-1 d-flex flex-column">
+                            <span class="fs-10 fw-950 text-accent ls-3 uppercase mb-2">Starts From ৳25,000</span>
+                            <h3 class="fs-4 mb-4">Nano Ceramic Coating</h3>
+                            <p class="fs-7 opacity-50 mb-5 flex-grow-1">Premium 9H hardness coating providing unmatched protection and permanent gloss bond.</p>
+                            <a href="http://127.0.0.1:8000/appointment?service=1" class="btn-pro btn-pro-primary w-100 py-3 fs-9">BOOK SESSION</a>
+                        </div>
+                    </div>
+                </div>
+                                <div class="col-lg-4">
+                    <div class="service-card-modern reveal" style="transition-delay: 0.15s;">
+                        <div class="service-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1613214150384-09874a7b738b?q=80&amp;w=2071&amp;auto=format&amp;fit=crop?auto=format&fit=crop&q=80&w=1000" alt="Exterior Restoration (Stage 2)" onerror="this.src='https://images.unsplash.com/photo-1613214150384-09874a7b738b?auto=format&fit=crop&q=80&w=1000'">
+                        </div>
+                        <div class="p-5 flex-grow-1 d-flex flex-column">
+                            <span class="fs-10 fw-950 text-accent ls-3 uppercase mb-2">Starts From ৳15,000</span>
+                            <h3 class="fs-4 mb-4">Exterior Restoration (Stage 2)</h3>
+                            <p class="fs-7 opacity-50 mb-5 flex-grow-1">Multi-stage machine polishing to remove swirl marks and restore factory-new clarity.</p>
+                            <a href="http://127.0.0.1:8000/appointment?service=2" class="btn-pro btn-pro-primary w-100 py-3 fs-9">BOOK SESSION</a>
+                        </div>
+                    </div>
+                </div>
+                                <div class="col-lg-4">
+                    <div class="service-card-modern reveal" style="transition-delay: 0.3s;">
+                        <div class="service-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1593466144596-9abe3ed2f5df?q=80&amp;w=2070&amp;auto=format&amp;fit=crop?auto=format&fit=crop&q=80&w=1000" alt="Interior Deep Sanitization" onerror="this.src='https://images.unsplash.com/photo-1613214150384-09874a7b738b?auto=format&fit=crop&q=80&w=1000'">
+                        </div>
+                        <div class="p-5 flex-grow-1 d-flex flex-column">
+                            <span class="fs-10 fw-950 text-accent ls-3 uppercase mb-2">Starts From ৳8,000</span>
+                            <h3 class="fs-4 mb-4">Interior Deep Sanitization</h3>
+                            <p class="fs-7 opacity-50 mb-5 flex-grow-1">Deep extraction cleaning, steam treatment, and premium leather conditioning.</p>
+                            <a href="http://127.0.0.1:8000/appointment?service=3" class="btn-pro btn-pro-primary w-100 py-3 fs-9">BOOK SESSION</a>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: PRODUCT SHOWROOM -->
+    <section class="section-padding bg-surface">
+        <div class="nav-container">
+            <div class="d-flex justify-content-between align-items-end mb-5 reveal">
+                <div>
+                    <span class="section-tag mb-3" style="color: var(--db-accent);">GEAR_REGISTRY</span>
+                    <h2 class="display-4 ls-narrower m-0">THE SHOP_</h2>
+                </div>
+                <a href="http://127.0.0.1:8000/catalog" class="nav-link-rsa p-0 border-bottom border-accent">BROWSE ALL GEAR →</a>
+            </div>
+
+            <div class="product-grid reveal">
+                                <div class="product-card-pro bg-body group-hover-trigger">
+                    <div class="aura-glow"></div>
+                    <a href="http://127.0.0.1:8000/product/graphene-ceramic-coating-50ml" class="text-decoration-none">
+                        <div class="card-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?q=80&amp;w=2071&amp;auto=format&amp;fit=crop?auto=format&q=80&w=600" alt="Graphene Ceramic Coating 50ml" onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/RSA_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
+                        </div>
+                        <div class="p-4 pt-0">
+                            <span class="fs-10 fw-950 text-accent opacity-50 ls-2 d-block mb-1 uppercase">Ceramic Coating</span>
+                            <h3 class="fs-8 mb-3 text-primary">Graphene Ceramic Coating 50ml</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-900 fs-7">৳4,500</span>
+                                <form action="http://127.0.0.1:8000/cart/add/1" method="POST" class="ajax-cart-form m-0">
+                                    <input type="hidden" name="_token" value="D5Zhkb8E38VrOQOaVsOTJnTH0PHSuXv6WYbCmxh6" autocomplete="off">                                    <button type="submit" class="bg-transparent border-0 text-accent p-0 hover-opacity-70 transition-all">
+                                        <i class="fas fa-plus-square fa-lg"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                                <div class="product-card-pro bg-body group-hover-trigger">
+                    <div class="aura-glow"></div>
+                    <a href="http://127.0.0.1:8000/product/hyper-compound-v2" class="text-decoration-none">
+                        <div class="card-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1597328290308-498b72528159?q=80&amp;w=2070&amp;auto=format&amp;fit=crop?auto=format&q=80&w=600" alt="Hyper Compound V2" onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/RSA_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
+                        </div>
+                        <div class="p-4 pt-0">
+                            <span class="fs-10 fw-950 text-accent opacity-50 ls-2 d-block mb-1 uppercase">Exterior Detailing</span>
+                            <h3 class="fs-8 mb-3 text-primary">Hyper Compound V2</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-900 fs-7">৳2,200</span>
+                                <form action="http://127.0.0.1:8000/cart/add/2" method="POST" class="ajax-cart-form m-0">
+                                    <input type="hidden" name="_token" value="D5Zhkb8E38VrOQOaVsOTJnTH0PHSuXv6WYbCmxh6" autocomplete="off">                                    <button type="submit" class="bg-transparent border-0 text-accent p-0 hover-opacity-70 transition-all">
+                                        <i class="fas fa-plus-square fa-lg"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                                <div class="product-card-pro bg-body group-hover-trigger">
+                    <div class="aura-glow"></div>
+                    <a href="http://127.0.0.1:8000/product/mirror-finish-polish" class="text-decoration-none">
+                        <div class="card-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1616763355548-1b606f439f86?q=80&amp;w=2070&amp;auto=format&amp;fit=crop?auto=format&q=80&w=600" alt="Mirror Finish Polish" onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/RSA_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
+                        </div>
+                        <div class="p-4 pt-0">
+                            <span class="fs-10 fw-950 text-accent opacity-50 ls-2 d-block mb-1 uppercase">Exterior Detailing</span>
+                            <h3 class="fs-8 mb-3 text-primary">Mirror Finish Polish</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-900 fs-7">৳1,950</span>
+                                <form action="http://127.0.0.1:8000/cart/add/3" method="POST" class="ajax-cart-form m-0">
+                                    <input type="hidden" name="_token" value="D5Zhkb8E38VrOQOaVsOTJnTH0PHSuXv6WYbCmxh6" autocomplete="off">                                    <button type="submit" class="bg-transparent border-0 text-accent p-0 hover-opacity-70 transition-all">
+                                        <i class="fas fa-plus-square fa-lg"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                                <div class="product-card-pro bg-body group-hover-trigger">
+                    <div class="aura-glow"></div>
+                    <a href="http://127.0.0.1:8000/product/leather-serum-pro" class="text-decoration-none">
+                        <div class="card-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1584622781564-1d9876a1df72?q=80&amp;w=2070&amp;auto=format&amp;fit=crop?auto=format&q=80&w=600" alt="Leather Serum Pro" onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/RSA_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
+                        </div>
+                        <div class="p-4 pt-0">
+                            <span class="fs-10 fw-950 text-accent opacity-50 ls-2 d-block mb-1 uppercase">Interior Detailing</span>
+                            <h3 class="fs-8 mb-3 text-primary">Leather Serum Pro</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-900 fs-7">৳1,800</span>
+                                <form action="http://127.0.0.1:8000/cart/add/4" method="POST" class="ajax-cart-form m-0">
+                                    <input type="hidden" name="_token" value="D5Zhkb8E38VrOQOaVsOTJnTH0PHSuXv6WYbCmxh6" autocomplete="off">                                    <button type="submit" class="bg-transparent border-0 text-accent p-0 hover-opacity-70 transition-all">
+                                        <i class="fas fa-plus-square fa-lg"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                                <div class="product-card-pro bg-body group-hover-trigger">
+                    <div class="aura-glow"></div>
+                    <a href="http://127.0.0.1:8000/product/ppf-maintenance-spray" class="text-decoration-none">
+                        <div class="card-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1601362840469-51e4d8d59085?q=80&amp;w=2070&amp;auto=format&amp;fit=crop?auto=format&q=80&w=600" alt="PPF Maintenance Spray" onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/RSA_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
+                        </div>
+                        <div class="p-4 pt-0">
+                            <span class="fs-10 fw-950 text-accent opacity-50 ls-2 d-block mb-1 uppercase">PPF &amp; Wrap</span>
+                            <h3 class="fs-8 mb-3 text-primary">PPF Maintenance Spray</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-900 fs-7">৳2,400</span>
+                                <form action="http://127.0.0.1:8000/cart/add/5" method="POST" class="ajax-cart-form m-0">
+                                    <input type="hidden" name="_token" value="D5Zhkb8E38VrOQOaVsOTJnTH0PHSuXv6WYbCmxh6" autocomplete="off">                                    <button type="submit" class="bg-transparent border-0 text-accent p-0 hover-opacity-70 transition-all">
+                                        <i class="fas fa-plus-square fa-lg"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: SPLIT SHOWCASE -->
+    <section class="section-padding p-0 bg-body">
+        <div class="row g-0">
+            <div class="col-lg-6 order-2 order-lg-1">
+                <div class="service-img-wrapper h-100" style="min-height: 600px;">
+                    <img src="https://images.unsplash.com/photo-1603584173870-7f3ca99bb5b3?auto=format&fit=crop&q=80&w=1500" class="reveal h-100 w-100 object-fit-cover" alt="Performance">
+                </div>
+            </div>
+            <div class="col-lg-6 d-flex align-items-center p-5 p-lg-12 bg-surface order-1 order-lg-2">
+                <div class="reveal">
+                    <span class="section-tag mb-4" style="color: var(--db-accent);">THE STANDARD</span>
+                    <h2 class="display-3 ls-narrower mb-4">ENGINEERED<br>PRECISION_</h2>
+                    <p class="fs-6 opacity-50 mb-5" style="line-height: 2;">Drive Boosted operates at the intersection of high-performance chemical engineering and artisanal automotive care. We don't just detail; we preserve, protect, and perfect every micron of your vehicle's surface.</p>
+                    <div class="d-flex gap-5 mb-5">
+                        <div>
+                            <span class="d-block fs-3 fw-900 text-primary mb-1">9H</span>
+                            <span class="fs-10 fw-950 opacity-30 ls-2 uppercase">Coating Base</span>
+                        </div>
+                        <div>
+                            <span class="d-block fs-3 fw-900 text-primary mb-1">100%</span>
+                            <span class="fs-10 fw-950 opacity-30 ls-2 uppercase">Lab Tested</span>
+                        </div>
+                    </div>
+                    <a href="http://127.0.0.1:8000#story" class="btn-pro btn-pro-primary px-5 py-4">OUR MISSION</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Footer -->
+    <footer class="mt-5">
+        <div class="nav-container">
+            <div class="row g-5">
+                <div class="col-lg-5">
+                    <a href="http://127.0.0.1:8000" class="footer-logo mb-4 d-inline-block">DRIVE <span>BOOSTED</span></a>
+                    <p class="fs-7 opacity-60 mb-5" style="max-width: 350px; line-height: 1.8;">
+                        Elite automotive care and aesthetic engineering. Drive Boosted formulations provide unparalleled protection and finish for the elite automotive enthusiast.
+                    </p>
+                    <div class="d-flex gap-4 mb-5 mb-lg-0">
+                        <a href="https://facebook.com/driveboosted" class="nav-icon fs-5 opacity-40 hover-opacity-100"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/driveboosted" class="nav-icon fs-5 opacity-40 hover-opacity-100"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="nav-icon fs-5 opacity-40 hover-opacity-100"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-lg-2">
+                    <h4 class="fs-8 fw-950 ls-2 mb-4">SHOWROOM</h4>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="http://127.0.0.1:8000/catalog" class="footer-link">All Products</a></li>
+                        <li><a href="http://127.0.0.1:8000/catalog?category=ceramic" class="footer-link">Ceramic Series</a></li>
+                        <li><a href="http://127.0.0.1:8000/catalog?category=detailing" class="footer-link">Detailing Kits</a></li>
+                        <li><a href="http://127.0.0.1:8000/catalog?category=accessories" class="footer-link">Accessories</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-lg-2">
+                    <h4 class="fs-8 fw-950 ls-2 mb-4">EXPERIENCE</h4>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="http://127.0.0.1:8000/services" class="footer-link">Services Lab</a></li>
+                        <li><a href="http://127.0.0.1:8000/appointment" class="footer-link">Book Studio</a></li>
+                        <li><a href="#" class="footer-link">Our Story</a></li>
+                        <li><a href="#" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3">
+                    <h4 class="fs-8 fw-950 ls-2 mb-4">STAY BOOSTED</h4>
+                    <p class="fs-9 opacity-50 mb-4 ls-1">Join our high-performance circle for exclusive drops.</p>
+                    <form action="#" class="newsletter-form">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="YOUR@EMAIL.COM" style="border-right: 0;">
+                            <button class="btn-pro btn-pro-primary px-3 fs-9" type="submit">JOIN</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-top border-white border-opacity-5 mt-5 pt-5 text-center">
+                <p class="mb-0 fs-10 opacity-30 ls-3">&copy; 2026 DRIVE BOOSTED APPAREL & CARE. ALL RIGHTS RESERVED.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <script>
+        // --- High-Performance Interactions ---
+        $(document).ready(function() {
+            const $nav = $('#mainNav');
+            const $sidebar = $('#cartDrawer');
+            const $search = $('#searchOverlay');
+            const $menu = $('#navCenter');
+            const $logo = $('#mainLogo');
+
+            // Theme Persistence Engine
+            const updateThemeUI = (theme) => {
+                const icon = $('#themeToggle i');
+                icon.attr('class', theme === 'light' ? 'fas fa-moon' : 'fas fa-sun');
+                $logo.attr('src', theme === 'light' ? 'http://127.0.0.1:8000/images/logo-black.png' : 'http://127.0.0.1:8000/images/logo-white.png');
+            };
+
+            const initTheme = () => {
+                const saved = localStorage.getItem('theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', saved);
+                updateThemeUI(saved);
+            };
+
+            $('#themeToggle').click(() => {
+                const current = document.documentElement.getAttribute('data-theme');
+                const next = current === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+                updateThemeUI(next);
+            });
+
+            initTheme();
+
+            // Navigation Scroll Effect
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 30) {
+                    $nav.addClass('scrolled');
+                } else {
+                    if(!window.location.pathname.match(/\/(#|$)/)) {
+                        $nav.removeClass('scrolled');
+                    }
+                }
+            });
+
+            // Drawer & Overlay Controllers
+            $('#cartTrigger').click(() => $sidebar.addClass('open'));
+            $('#closeCart').click(() => $sidebar.removeClass('open'));
+            
+            $('#searchTrigger').click(() => {
+                $search.addClass('active');
+                setTimeout(() => $('#searchInput').focus(), 400);
+            });
+            $('#closeSearch').click(() => $search.removeClass('active'));
+
+            $('#mobileMenuToggle').click(() => $menu.toggleClass('mobile-open'));
+
+            // Scroll Reveal Intersection Observer
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            $('.reveal').each(function() { revealObserver.observe(this); });
+
+            // AJAX Cart Integration
+            $(document).on('submit', '.ajax-cart-form', function(e) {
+                e.preventDefault();
+                const $form = $(this);
+                const $btn = $form.find('button[type="submit"]');
+                const originalText = $btn.html();
+                
+                $btn.prop('disabled', true).html('<i class="fas fa-circle-notch fa-spin"></i>');
+                
+                $.ajax({
+                    url: $form.attr('action'),
+                    method: 'POST',
+                    data: $form.serialize(),
+                    success: function(res) {
+                        $('#cartCounter').text(res.cart_count);
+                        $('#drawerSubtotal').text('৳' + res.cart_total);
+                        $('#cartContents').html(res.html);
+                        $sidebar.addClass('open');
+                        $btn.prop('disabled', false).html(originalText);
+                    },
+                    error: () => $btn.prop('disabled', false).html(originalText)
+                });
+            });
+        });
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const swiper = new Swiper(".heroSwiper", {
+            loop: true,
+            speed: 1200,
+            autoplay: { delay: 7000, disableOnInteraction: false },
+            effect: 'fade',
+            fadeEffect: { crossFade: true },
+            pagination: {
+                el: ".hero-fraction",
+                type: 'fraction',
+                formatFractionCurrent: (num) => '0' + num,
+                formatFractionTotal: (num) => '0' + num
+            },
+            navigation: {
+                nextEl: ".swiper-next",
+                prevEl: ".swiper-prev"
+            }
+        });
+    });
+</script>
+</body>
+</html>
