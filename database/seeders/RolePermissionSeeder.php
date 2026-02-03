@@ -62,7 +62,7 @@ class RolePermissionSeeder extends Seeder
         }
 
         // Assign Admin role to the first user
-        $admin = \App\Models\User::where('email', 'admin@rsa.com')->first();
+        $admin = \App\Models\User::where('email', 'admin@driveboosted.com')->first();
         if ($admin) {
             $admin->roles()->sync(\App\Models\Role::where('slug', 'admin')->pluck('id'));
         }
