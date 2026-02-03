@@ -98,7 +98,7 @@
                                         <div class="col-3 col-md-2">
                                             <img src="{{ filter_var($details['image'], FILTER_VALIDATE_URL) ? $details['image'] : asset('storage/' . $details['image']) }}?auto=format&q=80&w=200" 
                                                  alt="{{ $details['name'] }}" 
-                                                 class="cart-item-img w-100 object-fit-contain bg-surface p-2 border border-white border-opacity-5"
+                                                 class="cart-item-img object-fit-contain bg-surface p-2 border border-white border-opacity-5"
                                                  onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/DB_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
                                         </div>
                                         
@@ -123,10 +123,11 @@
                                                         <span class="fs-6 fw-950">৳{{ number_format($details['price'] * $details['quantity']) }}</span>
                                                     </div>
 
-                                                    <form action="{{ route('cart.remove') }}" method="POST">
+                                                    <form action="{{ route('cart.remove') }}" method="POST" class="ajax-cart-remove-form">
                                                         @csrf
+                                                        @method('DELETE')
                                                         <input type="hidden" name="id" value="{{ $id }}">
-                                                        <button type="submit" class="nav-icon opacity-30 hover-opacity-100 fs-9"><i class="fas fa-times"></i></button>
+                                                        <button type="submit" class="nav-icon fs-7 opacity-30"><i class="fas fa-times"></i></button>
                                                     </form>
                                                 </div>
                                             </div>

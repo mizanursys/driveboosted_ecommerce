@@ -42,6 +42,7 @@ class CartController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
+                'message' => 'Item added to your gear bag',
                 'cart_count' => count($cart),
                 'cart_total' => number_format(collect($cart)->sum(fn($item) => $item['price'] * $item['quantity'])),
                 'html' => view('partials.cart-drawer-items')->render()
@@ -56,11 +57,22 @@ class CartController extends Controller
         $cart = session('cart', []);
         
         if (isset($cart[$request->id])) {
+            $productName = $cart[$request->id]['name'];
             unset($cart[$request->id]);
             session(['cart' => $cart]);
         }
         
-        return response()->json(['success' => true]);
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Item removed from bag',
+                'cart_count' => count($cart),
+                'cart_total' => number_format(collect($cart)->sum(fn($item) => $item['price'] * $item['quantity'])),
+                'html' => view('partials.cart-drawer-items')->render()
+            ]);
+        }
+        
+        return redirect()->back()->with('success', 'Item removed from gear bag');
     }
 
     public function checkout()

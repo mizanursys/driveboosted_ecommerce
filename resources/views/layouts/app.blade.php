@@ -79,6 +79,9 @@
 <body>
     <div class="cart-drawer-overlay" id="cartOverlay" style="position:fixed; top:0; left:0; width:100%; height:100vh; background:rgba(0,0,0,0.8); z-index:1500; opacity:0; visibility:hidden; transition: 0.4s;"></div>
 
+    <!-- Notification Engine -->
+    <div id="db-notifications"></div>
+
     <!-- Quick View Modal -->
     <div class="qv-overlay" id="quickViewOverlay">
         <button class="close-search" id="closeQuickView"><i class="fas fa-times"></i></button>
@@ -145,6 +148,24 @@
             </div>
         </div>
     </nav>
+    
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <button class="nav-icon position-absolute top-0 end-0 m-4" id="closeMobileMenu" style="font-size: 1.5rem;"><i class="fas fa-times"></i></button>
+        <div class="mobile-menu-content p-5">
+            <div class="text-center mb-5">
+                <img src="{{ asset('images/logo-white.png') }}" alt="Drive Boosted" class="logo-img logo-img-mobile" style="height: 50px;">
+            </div>
+            <ul class="mobile-nav-list list-unstyled d-flex flex-column gap-4 text-center">
+                <li><a href="{{ url('/') }}" class="mobile-nav-link">HOME_</a></li>
+                <li><a href="{{ url('/catalog') }}" class="mobile-nav-link">GEAR_SHOP_</a></li>
+                <li><a href="{{ url('/catalog?category=ceramic') }}" class="mobile-nav-link">CERAMIC_</a></li>
+                <li><a href="{{ route('services.index') }}" class="mobile-nav-link">SERVICES_</a></li>
+                <li><a href="{{ route('appointment.create') }}" class="mobile-nav-link">BOOK_STUDIO_</a></li>
+                <li><a href="{{ url('/') }}#story" class="mobile-nav-link">THE_STORY_</a></li>
+            </ul>
+        </div>
+    </div>
 
     <!-- Modal Search Overlay -->
     <div class="search-overlay" id="searchOverlay">
@@ -259,12 +280,57 @@
             </div>
         </div>
     </footer>
+    
+    <!-- Mobile Bottom Navigation -->
+    <div class="mobile-bottom-nav d-md-none glass-effect">
+        <div class="d-flex justify-content-around align-items-center h-100">
+            <a href="{{ url('/') }}" class="bn-item {{ Request::is('/') ? 'active' : '' }}">
+                <i class="fas fa-home"></i>
+                <span>HOME</span>
+            </a>
+            <a href="{{ url('/catalog') }}" class="bn-item {{ Request::is('catalog*') ? 'active' : '' }}">
+                <i class="fas fa-th-large"></i>
+                <span>SHOP</span>
+            </a>
+            <a href="{{ route('appointment.create') }}" class="bn-item {{ Request::is('appointment*') ? 'active' : '' }}">
+                <i class="fas fa-calendar-alt"></i>
+                <span>BOOK</span>
+            </a>
+            <a href="javascript:void(0)" class="bn-item" id="bnCartTrigger">
+                <div class="position-relative d-inline-block">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="bn-cart-counter cart-counter">{{ count(session('cart', [])) }}</span>
+                </div>
+                <span>CART</span>
+            </a>
+        </div>
+    </div>
 
     <!-- Core Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
+    <script>
+        window.showNotification = function(message, type = 'success') {
+            const container = document.getElementById('db-notifications');
+            if(!container) return;
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+            const title = type === 'success' ? 'SYSTEM_CONFIRMED' : 'SYSTEM_ENTRY_ERROR';
+            const toast = document.createElement('div');
+            toast.className = 'db-toast';
+            toast.innerHTML = `<div class="db-toast-icon"><i class="fas ${icon}"></i></div><div class="db-toast-content"><div class="db-toast-title">${title}</div><div class="db-toast-msg">${message}</div></div>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('active'), 10);
+            setTimeout(() => {
+                toast.classList.remove('active');
+                setTimeout(() => toast.remove(), 500);
+            }, 5000);
+        };
+        @if(session('success')) setTimeout(() => showNotification("{{ session('success') }}"), 500); @endif
+        @if(session('error')) setTimeout(() => showNotification("{{ session('error') }}", 'error'), 500); @endif
+    </script>
+
     <script>
         // --- High-Performance Interactions ---
         $(document).ready(function() {
@@ -295,7 +361,13 @@
             });
             $('#closeSearch').click(() => $search.removeClass('active'));
 
-            $('#mobileMenuToggle').click(() => $menu.toggleClass('mobile-open'));
+            // Mobile Menu Controller
+            $('#mobileMenuToggle').click(() => $('#mobileMenuOverlay').addClass('open'));
+            $('#closeMobileMenu').click(() => $('#mobileMenuOverlay').removeClass('open'));
+            $('#mobileMenuOverlay a').click(() => $('#mobileMenuOverlay').removeClass('open'));
+            
+            // Bottom Nav Cart Trigger
+            $('#bnCartTrigger').click(() => $sidebar.addClass('open'));
 
             // Scroll Reveal Intersection Observer
             const revealObserver = new IntersectionObserver((entries) => {
@@ -325,10 +397,42 @@
                         $('#cartCounter').text(res.cart_count);
                         $('#drawerSubtotal').text('৳' + res.cart_total);
                         $('#cartContents').html(res.html);
+                        
+                        // Show visual confirmation
+                        if(res.message) showNotification(res.message);
+                        
                         $sidebar.addClass('open');
                     },
-                    error: () => console.error('Cart update failed'),
+                    error: () => showNotification('Communication error with lab registry', 'error'),
                     complete: () => $btn.prop('disabled', false).html(originalText)
+                });
+            });
+
+            // Ajax Remove Integration
+            $(document).on('submit', '.ajax-cart-remove-form', function(e) {
+                e.preventDefault();
+                const $form = $(this);
+                const $btn = $form.find('button[type="submit"]');
+                const originalHtml = $btn.html();
+                
+                $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    method: 'POST',
+                    data: $form.serialize() + '&_method=DELETE',
+                    success: function(res) {
+                        $('#cartCounter').text(res.cart_count);
+                        $('#drawerSubtotal').text('৳' + res.cart_total);
+                        $('#cartContents').html(res.html);
+                        
+                        if(res.message) showNotification(res.message);
+                        
+                        if(window.location.pathname === '/cart') {
+                            location.reload();
+                        }
+                    },
+                    error: () => showNotification('Removal protocol failed', 'error')
                 });
             });
         });

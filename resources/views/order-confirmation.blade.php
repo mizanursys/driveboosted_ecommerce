@@ -62,8 +62,13 @@
                         </div>
                     </div>
 
-                    <div class="mt-5 pt-3">
-                        <a href="{{ url('/catalog') }}" class="btn-pro btn-pro-primary px-5 py-3 fs-8 fw-950 ls-3 uppercase">CONTINUE EXPLORING</a>
+                    <div class="mt-5 pt-3 d-flex flex-column flex-md-row justify-content-center gap-3">
+                        <a href="javascript:window.print()" class="btn-pro btn-pro-outline px-5 py-3 fs-8 fw-950 ls-3 uppercase">
+                            <i class="fas fa-print me-2"></i> PRINT_INVOICE
+                        </a>
+                        <a href="{{ url('/catalog') }}" class="btn-pro btn-pro-primary px-5 py-3 fs-8 fw-950 ls-3 uppercase">
+                            CONTINUE_EXPLORING
+                        </a>
                     </div>
                 </div>
             </div>
