@@ -21,8 +21,11 @@ class ProductController extends Controller
         
         // Get categories for homepage display
         $categories = Category::withCount('products')->orderBy('name')->take(8)->get();
+
+        // Get Hero Slides
+        $hero_slides = \App\Models\HeroSlide::where('is_active', true)->orderBy('order')->get();
         
-        return view('welcome', compact('products', 'services', 'categories'));
+        return view('welcome', compact('products', 'services', 'categories', 'hero_slides'));
     }
 
     public function show($slug)

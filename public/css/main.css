@@ -113,6 +113,7 @@ body {
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
     transition: background-color 0.5s ease, color 0.5s ease;
+    padding-top: var(--db-announcement-height);
 }
 
 /* Typography Engine */
@@ -231,7 +232,7 @@ p {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1050;
+    z-index: 2050;
     text-transform: uppercase;
 }
 
@@ -241,7 +242,7 @@ p {
     top: var(--db-announcement-height);
     left: 0;
     width: 100%;
-    z-index: 1040;
+    z-index: 2040;
     display: flex;
     align-items: center;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -250,11 +251,24 @@ p {
 }
 
 .master-nav.scrolled {
-    top: 0;
+    position: fixed;
+    top: var(--db-announcement-height);
     height: calc(var(--db-nav-height) - 10px);
     background: var(--db-bg-glass-strong);
     border-bottom: var(--db-glass-border);
     backdrop-filter: blur(var(--db-blur));
+    z-index: 2040;
+    animation: none;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
 }
 
 .logo-img {

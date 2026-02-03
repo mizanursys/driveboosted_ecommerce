@@ -17,6 +17,7 @@ class ServiceSeeder extends Seeder
                 'description' => 'Comprehensive exterior wash, vacuum, and interior wipe down with glass cleaning.',
                 'price' => 2500,
                 'duration' => '3 HOURS',
+                'image' => 'images/hero_1.png',
                 'is_active' => true,
             ],
             [
@@ -25,6 +26,7 @@ class ServiceSeeder extends Seeder
                 'description' => 'Steam cleaning of seats and carpets, leather conditioning, and deep sanitation of all surfaces.',
                 'price' => 5500,
                 'duration' => '5 HOURS',
+                'image' => 'images/hero.png', // Interior vibe or generic high quality
                 'is_active' => true,
             ],
             [
@@ -33,6 +35,7 @@ class ServiceSeeder extends Seeder
                 'description' => '9H hardness ceramic coating with 2 years of protection and extreme gloss enhancement.',
                 'price' => 12000,
                 'duration' => '24 HOURS',
+                'image' => 'images/rsa_product_ceramic.png',
                 'is_active' => true,
             ],
             [
@@ -41,6 +44,7 @@ class ServiceSeeder extends Seeder
                 'description' => '10H advanced ceramic coating with 5 years of protection and superior chemical resistance.',
                 'price' => 25000,
                 'duration' => '48 HOURS',
+                'image' => 'images/cat_2.png',
                 'is_active' => true,
             ],
             [
@@ -49,6 +53,7 @@ class ServiceSeeder extends Seeder
                 'description' => 'Single-stage paint correction to remove light swirls and restore deep gloss.',
                 'price' => 4500,
                 'duration' => '6 HOURS',
+                'image' => 'images/cat_1.png',
                 'is_active' => true,
             ],
             [
@@ -57,6 +62,7 @@ class ServiceSeeder extends Seeder
                 'description' => 'Complete detailing service including Ceramic Coating, Interior Spa, and Engine Bay cleaning.',
                 'price' => 35000,
                 'duration' => '72 HOURS',
+                'image' => 'images/rsa_hero_banner.png',
                 'is_active' => true,
             ],
         ];

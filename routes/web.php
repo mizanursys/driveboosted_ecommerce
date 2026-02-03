@@ -44,6 +44,9 @@ Route::get('/services/{id}', [App\Http\Controllers\ServiceController::class, 'sh
 Route::get('/appointment', [App\Http\Controllers\ServiceController::class, 'create'])->name('appointment.create');
 Route::post('/appointment', [App\Http\Controllers\ServiceController::class, 'store'])->name('appointment.store');
 
+// Lead Capture
+Route::post('/leads', [App\Http\Controllers\LeadController::class, 'store'])->name('leads.store');
+
 // Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
@@ -59,6 +62,8 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(function (
     Route::get('/dashboard', [App\Http\Controllers\AccountController::class, 'dashboard'])->name('dashboard');
     Route::get('/orders', [App\Http\Controllers\AccountController::class, 'orders'])->name('orders');
     Route::get('/orders/{id}', [App\Http\Controllers\AccountController::class, 'orderDetail'])->name('order.detail');
+    Route::get('/profile', [App\Http\Controllers\AccountController::class, 'profile'])->name('profile');
+    Route::post('/profile', [App\Http\Controllers\AccountController::class, 'updateProfile'])->name('profile.update');
 });
 
 // POS routes

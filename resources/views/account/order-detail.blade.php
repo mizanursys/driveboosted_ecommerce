@@ -54,8 +54,8 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="d-block p-4 text-decoration-none fw-950 fs-9 ls-1 text-white opacity-40 hover-opacity-100">
-                                    <i class="fas fa-cog me-3 w-5 text-center"></i> SETTINGS (WIP)
+                                <a href="{{ route('account.profile') }}" class="d-block p-4 text-decoration-none fw-950 fs-9 ls-1 text-white {{ request()->routeIs('account.profile') ? 'active' : 'opacity-60' }}">
+                                    <i class="fas fa-cog me-3 w-5 text-center"></i> PROFILE_SETTINGS
                                 </a>
                             </li>
                             <li class="border-top border-white border-opacity-5">
@@ -94,6 +94,14 @@
                                     };
                                 @endphp
                                 <span class="fw-950 uppercase ls-2 fs-7 {{ $statusClass }}">{{ $order->status }}</span>
+
+                                @if($order->status == 'completed' && $order->created_at->diffInDays(now()) < 30)
+                                    <div class="mt-3">
+                                        <button class="btn-pro btn-pro-outline py-2 px-3 fs-10 border-danger text-danger opacity-70 hover-opacity-100" onclick="alert('Please contact support@driveboosted.com with your Order ID for return processing.')">
+                                            REQUEST RETURN
+                                        </button>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
@@ -174,121 +182,4 @@
         </div>
     </main>
 @endsection
-            <div class="row g-4">
-                <!-- Sidebar -->
-                <div class="col-lg-3">
-                    <div class="account-nav bg-surface border border-white border-opacity-5 p-4 sticky-top" style="top: 120px;">
-                        <h3 class="fs-9 fw-950 text-secondary opacity-40 ls-2 uppercase mb-4">Command Center</h3>
-                        <ul class="list-unstyled">
-                            <li class="mb-2">
-                                <a href="{{ url('/account') }}" class="d-block p-3 text-decoration-none fw-900 fs-8 ls-1 {{ request()->is('account') ? 'bg-accent text-white' : 'text-primary' }}">DASHBOARD</a>
-                            </li>
-                            <li class="mb-2">
-                                <a href="{{ url('/account/orders') }}" class="d-block p-3 text-decoration-none fw-900 fs-8 ls-1 {{ request()->is('account/orders*') ? 'bg-accent text-white' : 'text-primary' }} hover-bg-surface transition-all">MY ORDERS</a>
-                            </li>
-                            <li class="mb-2">
-                                <a href="{{ url('/account/profile') }}" class="d-block p-3 text-decoration-none fw-900 fs-8 ls-1 {{ request()->is('account/profile') ? 'bg-accent text-white' : 'text-primary' }} hover-bg-surface transition-all">PROFILE SETTINGS</a>
-                            </li>
-                            <li class="mt-4 pt-4 border-top border-white border-opacity-5">
-                                <a href="{{ url('/logout') }}" class="d-block p-3 text-decoration-none fw-900 fs-8 ls-1 text-danger hover-bg-surface transition-all">TERMINATE SESSION</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
 
-                <!-- Main Content -->
-                <div class="col-lg-9">
-                    <div class="bg-surface border border-white border-opacity-5 p-4 p-md-5 animate-fade-up">
-                        <div class="mb-5">
-                            <a href="{{ url('/account/orders') }}" class="text-decoration-none text-secondary opacity-50 hover-opacity-100 fs-9 fw-900 ls-2 uppercase">← RETURN TO LOGS</a>
-                        </div>
-
-                        <div class="d-flex justify-content-between align-items-end mb-5 pb-4 border-bottom border-white border-opacity-5">
-                            <div>
-                                <span class="section-tag" style="color: var(--accent);">SEQUENCE_DETAILS</span>
-                                <h1 class="display-5 fw-900 m-0 text-primary uppercase">#{{ $order->order_number }}</h1>
-                                <p class="fs-8 text-secondary m-0 mt-2">{{ $order->created_at->format('M d, Y') }} at {{ $order->created_at->format('H:i') }} UTC</p>
-                            </div>
-                            <div class="text-end">
-                                <span class="fs-10 fw-950 text-secondary opacity-40 ls-2 uppercase d-block mb-1">State</span>
-                                @php
-                                    $statusClass = $order->status == 'completed' ? 'text-success' : ($order->status == 'pending' ? 'text-warning' : 'text-primary');
-                                @endphp
-                                <span class="fw-950 uppercase ls-2 fs-7 {{ $statusClass }}">{{ $order->status }}</span>
-                            </div>
-                        </div>
-
-                        <div class="row g-5 mb-5">
-                            <div class="col-md-6">
-                                <h3 class="fs-9 fw-950 text-secondary opacity-40 ls-3 uppercase mb-4">LOGISTICS INFO</h3>
-                                <div class="bg-elevated p-4 border border-white border-opacity-5 fs-8">
-                                    <p class="mb-1 text-primary fw-900">{{ $order->customer_name }}</p>
-                                    <p class="mb-1 text-secondary opacity-60">{{ $order->customer_email }}</p>
-                                    <p class="mb-1 text-secondary opacity-60">{{ $order->customer_phone }}</p>
-                                    <p class="mb-0 text-secondary opacity-60 pt-2">{{ $order->customer_address }}, {{ $order->customer_city }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <h3 class="fs-9 fw-950 text-secondary opacity-40 ls-3 uppercase mb-4">VALUATION</h3>
-                                <div class="bg-elevated p-4 border border-white border-opacity-5 fs-8">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="text-secondary opacity-50">Subtotal</span>
-                                        <span class="text-primary fw-900">৳{{ number_format($order->subtotal) }}</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="text-secondary opacity-50">Shipping</span>
-                                        <span class="text-accent fw-900 uppercase">Free</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between pt-3 border-top border-white border-opacity-5">
-                                        <span class="text-primary fw-950 uppercase ls-1">Total</span>
-                                        <span class="text-accent fw-950 fs-5">৳{{ number_format($order->total) }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h3 class="fs-9 fw-950 text-secondary opacity-40 ls-3 uppercase mb-4">ITEMIZED ACQUISITIONS</h3>
-                        <div class="table-responsive">
-                            <table class="table table-dark align-middle border-0">
-                                <thead>
-                                    <tr class="fs-10 text-secondary opacity-50 uppercase ls-2 border-bottom border-white border-opacity-5">
-                                        <th class="p-3">Asset</th>
-                                        <th class="p-3">Unit Val</th>
-                                        <th class="p-3 text-center">Qty</th>
-                                        <th class="p-3 text-end">Subtotal</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="fs-8">
-                                    @foreach($order->items as $item)
-                                        <tr class="border-bottom border-white border-opacity-5">
-                                            <td class="p-3">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    @php $img = $item->product ? $item->product->image : 'images/default-product.png'; @endphp
-                                                    <img src="{{ filter_var($img, FILTER_VALIDATE_URL) ? $img : asset('storage/' . $img) }}" 
-                                                         class="bg-black p-1 border border-white border-opacity-10" 
-                                                         style="width: 50px; height: 50px; object-fit: contain;"
-                                                         onerror="this.src='https://cdn.shopify.com/s/files/1/0793/0216/4717/files/RSA_PRODUCTS_1587_x_1700_px_13.png?v=1768818786'">
-                                                    <span class="text-primary fw-900 uppercase">{{ $item->product_name }}</span>
-                                                </div>
-                                            </td>
-                                            <td class="p-3 text-secondary">৳{{ number_format($item->price) }}</td>
-                                            <td class="p-3 text-center text-secondary">x{{ $item->quantity }}</td>
-                                            <td class="p-3 text-end text-primary fw-900">৳{{ number_format($item->subtotal) }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-
-                        @if($order->notes)
-                            <div class="mt-5 p-4 bg-accent bg-opacity-5 border border-accent border-opacity-20">
-                                <h4 class="fs-10 fw-950 text-accent ls-2 uppercase mb-2">COMMAND_NOTES</h4>
-                                <p class="fs-8 text-secondary m-0">{{ $order->notes }}</p>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-@endsection

@@ -36,7 +36,6 @@
 
             document.addEventListener('DOMContentLoaded', () => {
                 const themeToggle = document.getElementById('themeToggle');
-                const mainLogo = document.getElementById('mainLogo');
                 
                 const updateThemeUI = (theme) => {
                     // Update Toggle Icon
@@ -92,7 +91,7 @@
 
     <!-- Announcement Bar -->
     <div class="announcement-bar">
-        <span>WORLDWIDE SHIPPING • PREMIUM AUTOMOTIVE PERFORMANCE • EST. 2026</span>
+        <span>{{ $site_settings->announcement_text ?? 'WORLDWIDE SHIPPING • PREMIUM AUTOMOTIVE PERFORMANCE • EST. 2026' }}</span>
     </div>
 
     <!-- Master Navigation -->
@@ -135,10 +134,24 @@
 
             <!-- Right: Action Icons -->
             <div class="nav-right d-flex gap-4 align-items-center">
-                <button class="nav-icon" id="themeToggle" title="Toggle Mode">
-                    <i class="fas fa-sun"></i>
-                </button>
-                <div class="d-none d-md-block" style="width: 1px; height: 20px; background: var(--db-border-subtle);"></div>
+                <!-- Theme Toggle Removed -->
+                
+                <!-- Authenticated User Buttons -->
+                @auth
+                    <a href="{{ route('account.dashboard') }}" class="btn-pro btn-pro-primary py-2 px-3 fs-9" style="letter-spacing: 0.1em;">
+                        MY ACCOUNT
+                    </a>
+                @else
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('login') }}" class="btn-pro btn-pro-outline py-2 px-3 fs-9 border-0" style="letter-spacing: 0.1em;">
+                            LOGIN
+                        </a>
+                        <a href="{{ route('register') }}" class="btn-pro btn-pro-primary py-2 px-3 fs-9" style="letter-spacing: 0.1em;">
+                            REGISTER
+                        </a>
+                    </div>
+                @endauth
+
                 <button class="nav-icon" id="searchTrigger"><i class="fas fa-search"></i></button>
                 <button class="nav-icon position-relative" id="cartTrigger">
                     <i class="fas fa-shopping-bag"></i>
@@ -162,7 +175,18 @@
                 <li><a href="{{ url('/catalog?category=ceramic') }}" class="mobile-nav-link">CERAMIC_</a></li>
                 <li><a href="{{ route('services.index') }}" class="mobile-nav-link">SERVICES_</a></li>
                 <li><a href="{{ route('appointment.create') }}" class="mobile-nav-link">BOOK_STUDIO_</a></li>
-                <li><a href="{{ url('/') }}#story" class="mobile-nav-link">THE_STORY_</a></li>
+                
+                @auth
+                    <li><a href="{{ route('account.dashboard') }}" class="mobile-nav-link text-accent">MY_ACCOUNT_</a></li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="mobile-nav-link bg-transparent border-0 p-0 text-white opacity-50">LOGOUT_</button>
+                        </form>
+                    </li>
+                @else
+                    <li><a href="{{ route('login') }}" class="mobile-nav-link text-accent">LOGIN_/_REGISTER_</a></li>
+                @endauth
             </ul>
         </div>
     </div>
@@ -220,13 +244,13 @@
                 <div class="col-lg-4">
                     <a href="{{ url('/') }}" class="footer-logo mb-5 d-inline-block">DRIVE <span>BOOSTED</span></a>
                     <p class="fs-7 opacity-50 mb-5" style="max-width: 350px; line-height: 2;">
-                        Elite automotive care and precision surface engineering. We redefine automotive aesthetics through scientific protocols and artisanal dedication.
+                        {{ $site_settings->footer_description ?? 'Elite automotive care and precision surface engineering. We redefine automotive aesthetics through scientific protocols and artisanal dedication.' }}
                     </p>
                     <div class="d-flex gap-3">
-                        <a href="#" class="nav-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="nav-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="nav-icon"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="nav-icon"><i class="fab fa-tiktok"></i></a>
+                        @if($site_settings->social_facebook)<a href="{{ $site_settings->social_facebook }}" class="nav-icon"><i class="fab fa-facebook-f"></i></a>@endif
+                        @if($site_settings->social_instagram)<a href="{{ $site_settings->social_instagram }}" class="nav-icon"><i class="fab fa-instagram"></i></a>@endif
+                        @if($site_settings->social_youtube)<a href="{{ $site_settings->social_youtube }}" class="nav-icon"><i class="fab fa-youtube"></i></a>@endif
+                        @if($site_settings->social_tiktok)<a href="{{ $site_settings->social_tiktok }}" class="nav-icon"><i class="fab fa-tiktok"></i></a>@endif
                     </div>
                 </div>
                 
@@ -337,9 +361,7 @@
             const $nav = $('#mainNav');
             const $sidebar = $('#cartDrawer');
             const $search = $('#searchOverlay');
-            const $menu = $('#navCenter');
-            const $logo = $('#mainLogo');
-
+            
             // Navigation Scroll Effect
             $(window).scroll(function() {
                 if ($(this).scrollTop() > 30) {
@@ -413,7 +435,6 @@
                 e.preventDefault();
                 const $form = $(this);
                 const $btn = $form.find('button[type="submit"]');
-                const originalHtml = $btn.html();
                 
                 $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
 

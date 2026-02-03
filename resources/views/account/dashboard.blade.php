@@ -85,8 +85,8 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="d-block p-4 text-decoration-none fw-950 fs-9 ls-1 text-white opacity-40 hover-opacity-100">
-                                    <i class="fas fa-cog me-3 w-5 text-center"></i> SETTINGS (WIP)
+                                <a href="{{ route('account.profile') }}" class="d-block p-4 text-decoration-none fw-950 fs-9 ls-1 text-white {{ request()->routeIs('account.profile') ? 'active' : 'opacity-60' }}">
+                                    <i class="fas fa-cog me-3 w-5 text-center"></i> PROFILE_SETTINGS
                                 </a>
                             </li>
                             <li class="border-top border-white border-opacity-5">
@@ -184,101 +184,4 @@
         </div>
     </main>
 @endsection
-            <div class="row g-4">
-                <!-- Sidebar -->
-                <div class="col-lg-3">
-                    <div class="account-nav bg-surface border border-white border-opacity-5 p-4 sticky-top" style="top: 120px;">
-                        <h3 class="fs-9 fw-950 text-secondary opacity-40 ls-2 uppercase mb-4">Command Center</h3>
-                        <ul class="list-unstyled">
-                            <li class="mb-2">
-                                <a href="{{ url('/account') }}" class="d-block p-3 text-decoration-none fw-900 fs-8 ls-1 {{ request()->is('account') ? 'bg-accent text-white' : 'text-primary' }}">DASHBOARD</a>
-                            </li>
-                            <li class="mb-2">
-                                <a href="{{ url('/account/orders') }}" class="d-block p-3 text-decoration-none fw-900 fs-8 ls-1 {{ request()->is('account/orders*') ? 'bg-accent text-white' : 'text-primary' }} hover-bg-surface transition-all">MY ORDERS</a>
-                            </li>
-                            <li class="mb-2">
-                                <a href="{{ url('/account/profile') }}" class="d-block p-3 text-decoration-none fw-900 fs-8 ls-1 {{ request()->is('account/profile') ? 'bg-accent text-white' : 'text-primary' }} hover-bg-surface transition-all">PROFILE SETTINGS</a>
-                            </li>
-                            <li class="mt-4 pt-4 border-top border-white border-opacity-5">
-                                <a href="{{ url('/logout') }}" class="d-block p-3 text-decoration-none fw-900 fs-8 ls-1 text-danger hover-bg-surface transition-all">TERMINATE SESSION</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
 
-                <!-- Main Content -->
-                <div class="col-lg-9">
-                    <div class="bg-surface border border-white border-opacity-5 p-4 p-md-5 animate-fade-up">
-                        <div class="d-flex justify-content-between align-items-end mb-5">
-                            <div>
-                                <span class="section-tag" style="color: var(--accent);">ACCOUNT_DASHBOARD</span>
-                                <h1 class="display-5 fw-900 m-0 text-primary">WELCOME BACK, {{ auth()->user()->name }}</h1>
-                            </div>
-                        </div>
-
-                        <div class="row g-4 mb-5">
-                            <div class="col-md-4">
-                                <div class="bg-elevated border border-white border-opacity-5 p-4">
-                                    <span class="fs-10 fw-950 text-secondary opacity-40 ls-2 uppercase d-block mb-1">Total Acquisitions</span>
-                                    <h2 class="display-6 fw-900 text-primary m-0">{{ $totalOrders }}</h2>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="bg-elevated border border-white border-opacity-5 p-4 border-start border-warning border-4">
-                                    <span class="fs-10 fw-950 text-secondary opacity-40 ls-2 uppercase d-block mb-1">Active Sequences</span>
-                                    <h2 class="display-6 fw-900 text-warning m-0">{{ $pendingOrders }}</h2>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="bg-elevated border border-white border-opacity-5 p-4 border-start border-success border-4">
-                                    <span class="fs-10 fw-950 text-secondary opacity-40 ls-2 uppercase d-block mb-1">Finalized Shipments</span>
-                                    <h2 class="display-6 fw-900 text-success m-0">{{ $completedOrders }}</h2>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h3 class="fs-7 fw-950 text-primary ls-2 uppercase mb-4">RECENT ACTIVITY</h3>
-                        @if($recentOrders->count() > 0)
-                            <div class="table-responsive">
-                                <table class="table table-dark table-hover align-middle border-0">
-                                    <thead class="bg-body border-0">
-                                        <tr class="fs-10 text-secondary opacity-50 uppercase ls-2">
-                                            <th class="p-3 border-0">Order Hash</th>
-                                            <th class="p-3 border-0">Date</th>
-                                            <th class="p-3 border-0">Valuation</th>
-                                            <th class="p-3 border-0">Status</th>
-                                            <th class="p-3 border-0 text-end">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="fs-8">
-                                        @foreach($recentOrders as $order)
-                                            <tr class="border-bottom border-white border-opacity-5">
-                                                <td class="p-3 border-0 fw-900 text-primary">#{{ $order->order_number }}</td>
-                                                <td class="p-3 border-0 text-secondary">{{ $order->created_at->format('M d, Y') }}</td>
-                                                <td class="p-3 border-0 fw-900 text-primary">৳{{ number_format($order->total) }}</td>
-                                                <td class="p-3 border-0">
-                                                    @php
-                                                        $statusClass = $order->status == 'completed' ? 'text-success' : ($order->status == 'pending' ? 'text-warning' : 'text-primary');
-                                                    @endphp
-                                                    <span class="fw-950 uppercase ls-1 {{ $statusClass }}">{{ $order->status }}</span>
-                                                </td>
-                                                <td class="p-3 border-0 text-end">
-                                                    <a href="{{ url('/account/orders/' . $order->id) }}" class="btn-pro btn-pro-outline py-2 px-3 fs-9">VIEW_DETAILS</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        @else
-                            <div class="py-5 text-center bg-elevated border border-white border-opacity-5">
-                                <p class="text-secondary opacity-50 mb-4">No recent activity detected.</p>
-                                <a href="{{ url('/catalog') }}" class="btn-pro btn-pro-primary px-4 py-3 fs-9">INITIATE ACQUISITION</a>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-@endsection
